@@ -7,11 +7,14 @@ from .forms import AddForm
 
 # Create your views here.
 def index(request):
+    return render(request,'index.html')
+
+def cars(request):
     vehicle_list = Vehicle.objects.all()
     context = {
         'vehicle_list': vehicle_list,
     }
-    return render(request, 'index.html', context)
+    return render(request, 'cars.html', context)
 
 def detail(request, vehicleID):
     try:
