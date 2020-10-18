@@ -1,0 +1,44 @@
+<!-- {% if vehicle_list %}
+    <ul>
+    {% for vehicle in vehicle_list %}
+    <li><a href="{% url 'management:detail' vehicle.vehicleID %}">{{ vehicle.make }} {{ vehicle.model }}</a></li>
+    {% endfor %}
+    </ul>
+    <a href="/add">Add Vehicle</a>
+{% else %}
+    <p>No Vehicles are available.</p>
+    <a href="/add">Add Vehicle</a>
+{% endif %} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">	
+        <div class="row text-center">
+            {% for vehicle in vehicle_list %}
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <img src=" {{vehicle.imageurl }} " >
+                    <div class="caption">
+                    <h4>
+                        {{ vehicle.make }} {{ vehicle.model }}
+                    </h4>
+                    </div>
+                    <p>
+                        <a href="{% url 'management:detail' vehicle.vehicleID %}" class="btn btn-primary">More Info</a>
+                    </p>
+                </div>
+            </div> 
+            {% endfor %}
+        </div>
+    
+        
+    </div>
+    
+</body>
+</html>
