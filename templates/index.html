@@ -16,10 +16,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style type="text/css">
+        .thumbnail img {
+            width: 100%;
+        }
+        
+        .thumbnail {
+            padding: 0;
+        }
+        
+        .thumbnail .caption-full {
+            padding: 9px;
+        }
+
+    </style>
 </head>
 <body>
     <div class="container">	
-        <div class="row text-center">
+        <header class="jumbotron">
+            <div>
+                <h1>
+                    Welcome To RideShare!
+                </h1>
+                <p>
+                    Unbeatable Rates. Easy & Quick Online Booking. Clean & Well Maintained Fleet.
+                </p>
+            </div>
+        </header>
+        <div class="row text-center" style="display:flex; flex-wrap: wrap;">
             {% for vehicle in vehicle_list %}
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
