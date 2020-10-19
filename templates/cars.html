@@ -1,0 +1,231 @@
+<!-- {% if vehicle_list %}
+    <ul>
+    {% for vehicle in vehicle_list %}
+    <li><a href="{% url 'management:detail' vehicle.vehicleID %}">{{ vehicle.make }} {{ vehicle.model }}</a></li>
+    {% endfor %}
+    </ul>
+    <a href="/add">Add Vehicle</a>
+{% else %}
+    <p>No Vehicles are available.</p>
+    <a href="/add">Add Vehicle</a>
+{% endif %} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Google Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.17.0/css/mdb.min.css" rel="stylesheet">
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.17.0/js/mdb.min.js"></script>
+    <style type="text/css">
+
+        .thumbnail img {
+            width: 100%;
+        }
+        
+        .thumbnail {
+            padding: 0;
+        }
+        
+        .thumbnail .caption-full {
+            padding: 9px;
+        }
+
+    </style>
+</head>
+<body>
+
+<center>
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <ul class="nav navbar-nav">
+          <li><a class="navbar-brand text-light" href="/">HOME</a></li>
+          <li><a class="navbar-link text-light" href="">VEHICLES</a></li>
+          <li><a class="navbar-link text-light" href="">SERVICES</a></li>
+          <li><a class="navbar-link text-light" href="">ABOUT</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+</center>
+
+
+    <div class="container">	
+        <header class="jumbotron">
+            <div>
+                <h1>
+                    Welcome To RideShare!
+                </h1>
+                <p>
+                    Unbeatable Rates. Easy & Quick Online Booking. Clean & Well Maintained Fleet.
+                </p>
+            </div>
+        </header>
+        <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+            {% for vehicle in vehicle_list %}
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <img src=" {{vehicle.imageurl }} " >
+                    <div class="caption">
+                    <h4>
+                        {{ vehicle.make }} {{ vehicle.model }}
+                    </h4>
+                    </div>
+                    <p>
+                        <a href="{% url 'management:detail' vehicle.vehicleID %}" class="btn btn-primary">More Info</a>
+                    </p>
+                </div>
+            </div> 
+            {% endfor %}
+        </div>
+    
+        
+    </div>
+
+
+    <!-- Footer -->
+<footer class="page-footer font-small blue-grey lighten-5">
+
+  <div class="black">
+    <div class="container">
+
+      <!-- Grid row-->
+      <div class="row py-4 d-flex align-items-center darken-5">
+
+        <!-- Grid column -->
+        <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0 ">
+          <h6 class="mb-0 white-text">Get connected with us!</h6>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-6 col-lg-7 text-center text-md-right">
+
+          
+          <!--Linkedin -->
+          <a class="li-ic">
+            <i class="fab fa-linkedin-in white-text mr-4"> </i>
+          </a>
+          <!--Instagram-->
+          <a class="git-ic">
+            <i class="fab fa-github white-text"> </i>
+          </a>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row-->
+
+    </div>
+  </div>
+
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left mt-5">
+
+    <!-- Grid row -->
+    <div class="row mt-3 dark-grey-text">
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
+
+        <!-- Content -->
+        <h6 class="text-uppercase font-weight-bold">Developers</h6>
+        <hr class="cyan darken-1 accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+        <p>
+          Shawn John
+        </p>
+        <p>
+          Merwin Samuel
+        </p>
+        <p>
+          Akhil Nair
+        </p>
+        <p>
+          Radley Roy
+        </p>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+
+        <!-- Links -->
+        <h6 class="text-uppercase font-weight-bold">Useful Links</h6>
+        <hr class="cyan darken-1 accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+        <p>
+          <a class="dark-grey-text" href="#!">Your Account</a>
+        </p>
+        
+        <p>
+          <a class="dark-grey-text" href="#!">Help</a>
+        </p>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+        <!-- Links -->
+        <h6 class="text-uppercase font-weight-bold">Contact</h6>
+        <hr class="cyan darken-1 accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+        <p>
+          <i class="fas fa-home mr-3"></i> Mumbai, India</p>
+        <p>
+          <i class="fas fa-envelope mr-3"></i> s2kjp@gmail.com</p>
+        <p>
+          <i class="fas fa-phone mr-3"></i> + 91 9867843833</p>
+        <p>
+          <i class="fas fa-print mr-3"></i> + 91 7887833456</p>
+
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+
+        
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row -->
+
+  </div>
+  <!-- Footer Links -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center text-black-50 py-3">© 2020 Copyright:
+    
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+
+
+
+
+    
+</body>
+</html>
