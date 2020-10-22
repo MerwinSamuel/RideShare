@@ -14,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Vehicles</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -81,7 +81,7 @@
             {% for vehicle in vehicle_list %}
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
-                    <img src=" {{vehicle.imageurl }} " >
+                    <img src=" {{vehicle.imageurl }}"  style="width:550px;height:200px;" >
                     <div class="caption">
                     <h4>
                         {{ vehicle.make }} {{ vehicle.model }}

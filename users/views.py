@@ -1,9 +1,39 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.contrib.auth.models import User,auth
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 # Create your views here.
+def register(request):
+    if request.method=='POST':
+        firstName=request.POST['firstName']
+        lastName=request.POST['lastName']
+        email=request.POST['email']
+        username=request.POST['userName']
+        password=request.POST['password']
+        confirmPassword=request.POST['confirmPassword']
+        if password== confirmPassword: 
+
+            if User.objects.filter(username=username).exists():
+                
+                return redirect('register')
+            elif User.objects.filter(email=email).exists():
+                
+                return redirect('register') 
+            else:
+                user=User.objects.create_user(username=username,password=password,email=email,first_name=firstName,last_name=lastName)
+                user.save()
+                print("user created")
+                return redirect("login")
+        else:
+            
+            return redirect('register')
+
+
+    else:
+        return render(request,'register.html')
+
 def index(request):    
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -18,13 +48,13 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse('index'))
         else:
-            return render(request, "users/login.html", {
+            return render(request, "login.html", {
                 "message": "Invalid Credentials."
             })
-    return render(request, "users/login.html")
+    return render(request, "login.html")
 
 def logout_view(request):
     logout(request)
-    return render(request, "users/login.html", {
+    return render(request, "login.html", {
         "message" : "Logged Out."
     })

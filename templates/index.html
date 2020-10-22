@@ -29,8 +29,9 @@
         <ul class="nav navbar-nav">
           <li><a class="navbar-brand text-light" href="">HOME</a></li>
           <li><a class="navbar-link text-light" href="/cars">VEHICLES</a></li>
-          <li><a class="navbar-link text-light" href="">SERVICES</a></li>
-          <li><a class="navbar-link text-light" href="">ABOUT</a></li>
+          <li><a class="navbar-link text-light" href="/users/register">Register</a></li>
+          <li><a class="navbar-link text-light" href="/users/login">Login</a></li>
+          <li><a class="navbar-link text-light" href="">{{ request.user.username }}</a></li>
         </ul>
       </div>
     </nav>
