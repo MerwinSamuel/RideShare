@@ -13,22 +13,30 @@ def register(request):
         username=request.POST['userName']
         password=request.POST['password']
         confirmPassword=request.POST['confirmPassword']
-        if password== confirmPassword: 
+        if password != confirmPassword:
+            
+            return render(request, 'register.html', {
+                "message": "Passwords do not match. Try again."
+            })
 
+            
+        else:
+            
             if User.objects.filter(username=username).exists():
                 
-                return redirect('register')
+               return render(request, 'register.html', {
+                    "message": "Username is taken. Try another Username."
+                })
             elif User.objects.filter(email=email).exists():
                 
-                return redirect('register') 
+                return render(request, 'register.html', {
+                    "message": "There is already an account with this Email."
+                }) 
             else:
                 user=User.objects.create_user(username=username,password=password,email=email,first_name=firstName,last_name=lastName)
                 user.save()
                 print("user created")
-                return redirect("login")
-        else:
-            
-            return redirect('register')
+                return redirect("login")   
 
 
     else:
