@@ -3,6 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User,auth
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib import messages
 
 # Create your views here.
 def register(request):
@@ -14,38 +15,25 @@ def register(request):
         password=request.POST['password']
         confirmPassword=request.POST['confirmPassword']
         if password != confirmPassword:
-            
-            return render(request, 'register.html', {
-                "message": "Passwords do not match. Try again."
-            })
-
-            
+            messages.warning(request,"Passwords do not match. Try again")
+            return redirect('/users/register')
         else:
-            
             if User.objects.filter(username=username).exists():
-                
-               return render(request, 'register.html', {
-                    "message": "Username is taken. Try another Username."
-                })
+                messages.warning(request,"Username is taken. Try another Username")
+                return redirect('/users/register')
             elif User.objects.filter(email=email).exists():
                 
-                return render(request, 'register.html', {
-                    "message": "There is already an account with this Email."
-                }) 
+                messages.warning(request,"Email is taken. Try another Email")
+                return redirect('/users/register')
             else:
                 user=User.objects.create_user(username=username,password=password,email=email,first_name=firstName,last_name=lastName)
                 user.save()
-                print("user created")
-                return redirect("login")   
+                messages.success(request,"Registration Successful!")
+                return redirect("/users/login")   
 
 
     else:
         return render(request,'register.html')
-
-def index(request):    
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    return render(request, "index.html")
 
 def login_view(request):
     if request.method == 'POST':
@@ -54,15 +42,14 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse('index'))
+            messages.success(request,"Logged In Successfuly!")   
+            return redirect("/")
         else:
-            return render(request, "login.html", {
-                "message": "Invalid Credentials."
-            })
+            messages.warning(request,"Invalid Credentials")
+            return redirect('/users/login')
     return render(request, "login.html")
 
 def logout_view(request):
     logout(request)
-    return render(request, "login.html", {
-        "message" : "Logged Out."
-    })
+    messages.info(request,"Logged Out")
+    return redirect("/")   
