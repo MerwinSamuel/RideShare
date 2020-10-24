@@ -1,84 +1,27 @@
-<!--<h1>{{ vehicle.make }} {{ vehicle.model }} </h1>
-<ul>
-    <li>Mileage : {{ vehicle.mileage }}</li>
-    <li>Damage : {{ vehicle.damage }}</li>
-    <li>Seats : {{ vehicle.seats }}</li>
-    <li>Cost : {{ vehicle.cost }}</li>
-    <li>Available : {{ vehicle.availability }}</li>
-    <img src=" {{vehicle.imageurl }} " alt="Image">
+{% extends 'base.html' %}
 
-</ul>-->
+{% block title %}Vehicle Info{% endblock title %}
 
+{% block body %}
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <style type="text/css">
-        img {
-          width: 580px;
-          height: 400px;
-          margin-left: 10px;
-         }  
-         body{
-             margin-top: 20px;
-         }
-         h5{
-             text-align: center;
-             margin-top: 10px;
-         }
-      </style>
-    <title>Car Info</title>
-  </head>
-  <body>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  
-    <div class="container d-flex justify-content-center">	
-        <div class="card" style="width: 600px;">
-            <h5 class="card-title">{{ vehicle.make }} {{ vehicle.model }}</h5>
-            <img src=" {{vehicle.imageurl }} " alt="Image">
-            <div class="card-body">
-              
-              <p class="card-text">
-                  <div class="container">
-                      <div class="row">
-                          <div class="col">
-                             <b> Rs. {{ vehicle.cost }} / hour </b>
-                          </div>
-                      </div>
-                      <div class="row">
-                        <div class="col">
-                            Mileage : {{ vehicle.mileage }} KM/L
-                        </div>
-                        <div class="col">
-                          {{ vehicle.seats }} Seaters
-                      </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            Damage : {{ vehicle.damage }}
-                        </div>
-                    </div>
-                  </div>
-              </p>
-              <div style="text-align: center;">
-              <a href="#" class="btn btn-primary">Book It</a>
-              </div>
+    <div class="container text-center">
+          <div class="card  mb-3 ">
+            <div class="card-header">
+              {{ vehicle.make }} {{ vehicle.model }}
             </div>
-        </div>
-        
-    </div>
+            <img class="card-img-top" src="{{vehicle.imageurl }}" alt="Card image cap" width="100px">
+            <div class="card-body">
+              <h5 class="card-title">Rs. {{ vehicle.cost }} / hour</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Mileage : {{ vehicle.mileage }} KM/L</li>
+              <li class="list-group-item"> Damage : {{ vehicle.damage }}</li>
+              <li class="list-group-item">{{ vehicle.seats }} Seaters</li>
+            </ul>
+            <div class="card-body">
+              <a href="#" class="btn btn-primary">Book Now</a>
+            </div>
+          </div>
+     </div>
 
-    </body>
-</html>
+{% endblock body %}

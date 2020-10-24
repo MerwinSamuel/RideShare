@@ -1,25 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Register</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <form action="register" method="POST">
-        {% csrf_token %}
-        <input type="text" name="firstName" placeholder="first name"><br><br>
-        <input type="text" name="lastName" placeholder="last name"><br><br>
-        <input type="email" name="email" placeholder="email"><br><br>
-        <input type="text" name="userName" placeholder="User Name"><br><br>
-        <input type="password" name="password" placeholder="password"><br><br>
-        <input type="password" name="confirmPassword" placeholder="confirm password"><br><br>
-        <input type="submit" value="Submit"><br>
-    </form>
+{% block title %}Register{% endblock title %}
 
+{% block body %}
+
+    <div class="container">
+            <div style="width: 40%; margin: 25px auto;">
+            <h1 style="text-align: center">Register</h1>
+            
+                <form action="register" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="firstName" placeholder="first name" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="lastName" placeholder="last name" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="email" name="email" placeholder="email" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="userName" placeholder="User Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" name="password" placeholder="password" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" name="confirmPassword" placeholder="confirm password" required>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                    </div>
+                </form>
+                <a href="/users/login">Login<a></a>
+            </div>
+    </div>
     
+{% endblock body %}
 
-</body>
-</html>

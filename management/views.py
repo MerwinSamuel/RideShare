@@ -37,10 +37,4 @@ def add(request):
         return HttpResponse("Vehicle Added!")
     else:
         return render(request, 'add.html')
-    # if request.method == "POST":
-    #     form = AddForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    # else:
-    #     form = AddForm()
-    # return render(request, "/add.html", {'form': form})
+    

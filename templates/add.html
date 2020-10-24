@@ -1,27 +1,13 @@
-<html>
-<head>
-<title>Add a Vehicle </title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-</head>
+{% extends 'base.html' %}
 
-<body>
-<!-- <form action="/add" method="post">
-    {% csrf_token %}
-    Make : <input type="text" name="make" required><br><br>
-    Model : <input type="text" name="model" required><br><br>
-    Image Url: <input type="text" name="imageurl" required><br><br>
-    Mileage : <input type="number" name="mileage" step="0.01" required><br><br>
-    Damage : <input type="text" name="damage" required><br><br>
-    Seats : <input type="number" min="0" name="seats" required><br><br>
-    Cost : <input type="number" min="0" name="cost" required><br><br>
-    <input type="submit" name="added" value="Add" required>
-</form>
-<a href="/">View all Vehicles<a> -->
+{% block title %}Add Vehicle{% endblock title %}
+
+{% block body %}
 
     <div class="container">
-        <div class="row">
+            <div style="width: 40%; margin: 25px auto;">
             <h1 style="text-align: center">Add a New Vehicle</h1>
-            <div style="width: 30%; margin: 25px auto;">
+            
                 <form action="/add" method="post">
                     {% csrf_token %}
                     <div class="form-group">
@@ -49,12 +35,8 @@
                         <button class="btn btn-lg btn-primary btn-block">Submit!</button>
                     </div>
                 </form>
-                <a href="/">View all Vehicles<a></a>
+                <a href="/cars">View all Vehicles<a></a>
             </div>
-        </div>
     </div>
     
-</body>
-
-</html>
-
+{% endblock body %}
