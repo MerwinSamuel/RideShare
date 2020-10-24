@@ -9,10 +9,10 @@
   <header class="jumbotron">
     <div>
         <h1>
-            Welcome To RideShare!
+            The Fleet
         </h1>
         <p>
-            Unbeatable Rates. Easy & Quick Online Booking. Clean & Well Maintained Fleet.
+          Easy & Quick Online Booking. Clean & Well Maintained Fleet.
         </p>
       </div>
   </header>
@@ -21,7 +21,7 @@
       {% for vehicle in vehicle_list %}
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
-            <img src=" {{vehicle.imageurl }}"  style="width:550px;height:200px;" class="d-block w-100" alt="...">
+            <img src=" {{vehicle.imageurl }}"  style="width:550px;height:250px;" class="d-block w-100" alt="...">
             
             <div class="card-body">
               <h5 class="card-title">{{ vehicle.make }} {{ vehicle.model }}</h5>
