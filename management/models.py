@@ -21,5 +21,5 @@ class Booking(models.Model):
     VehicleID = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     userID = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     start = models.DateTimeField()
-    end = models.DateTimeField()
     hours = models.IntegerField()
+    total = models.IntegerField()
