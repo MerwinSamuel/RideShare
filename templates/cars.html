@@ -19,6 +19,7 @@
   <div class="container my-3">
     <div class="row">
       {% for vehicle in vehicle_list %}
+      
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
             <img src=" {{vehicle.imageurl }}"  style="width:550px;height:250px;" class="d-block w-100" alt="...">
@@ -28,13 +29,14 @@
               <div class="d-flex justify-content-between align-items-center">
                 
                 <div class="btn-group">
-                  <a href="{% url 'management:detail' vehicle.vehicleID %}" class="btn btn-primary">More Info</a>
+                  <a href="/{{vehicle.vehicleID}}" class="btn btn-primary">More Info</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-          {% endfor %}
+      
+      {% endfor %}
       </div>
     </div>
     
