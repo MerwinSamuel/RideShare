@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Graph</title>
+</head>
+<body>
+  <div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+  Highcharts.chart('container', {
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Amount Earned for each Vehicle'
+      },
+      xAxis: {
+          categories: {{ categories|safe }}
+      },
+      series: [ {
+          name: 'Amount Earned',
+          data: {{ amount_series }},
+          color: 'blue'
+      }] 
+    });
+</script>
+
+<br><br><br><br><br><br><br>
+
+<div id="container1"></div>
+<script>
+  Highcharts.chart('container1', {
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Hours driven in each Vehicle'
+      },
+      xAxis: {
+          categories: {{ categories|safe }}
+      },
+      series: [{
+          name: 'Hours Driven',
+          data: {{ hours_series }},
+          color: 'red'
+      } ] 
+    });
+</script>
+
+</body>
+</html>
