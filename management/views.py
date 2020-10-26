@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.template import loader
@@ -6,6 +7,8 @@ from .models import Vehicle,Booking
 from .forms import AddForm 
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
+from django.db.models import *
+
 
 import datetime
 from django.conf import settings
@@ -76,4 +79,27 @@ def book(request, vehicleID):
         else:
             messages.warning(request,"Please login first!")
             return redirect('/users/login')
+
+
+
+def graph_view(request):
+    dataset = Booking.objects \
+        .values('VehicleID') \
+        .annotate(hours_count=F('hours'),amount_count=F('total')) \
+        .order_by('VehicleID')
+
+    categories = list()
+    hours_series = list()
+    amount_series = list()
+
+    for entry in dataset:
+        categories.append('Vehicle No. %s' % entry['VehicleID'])
+        hours_series.append(entry['hours_count'])
+        amount_series.append(entry['amount_count'])
+
+    return render(request, 'graph.html', {
+        'categories': json.dumps(categories),
+        'hours_series': json.dumps(hours_series),
+        'amount_series': json.dumps(amount_series)
+    })
         
