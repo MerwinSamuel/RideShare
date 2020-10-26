@@ -15,7 +15,12 @@
                         <input class="form-control" type="datetime-local" name="datetime" placeholder="datetime" required>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="number" name="hours" placeholder="hours" min="1" max="10" required>
+                        <input class="form-control" id="hours" type="number" name="hours" placeholder="hours" min="1" max="10" required>
+                    </div>
+                    <input type="hidden" id="cost" name="cost" value="{{ vehicle.cost }}">
+                    <div class="form-group">
+                        <label for="total">Total Cost : </label>
+                        <input class="form-control" id="total" type="number" name="total" readonly value="0">
                     </div>
                     
                     <div class="form-group">
@@ -24,5 +29,16 @@
                 </form>
             </div>
     </div>
+
+    <script>
+        function calculateTotal(){
+            var total = ($("#cost").val()*$("#hours").val())
+            $("#total").val(total);
+        }
+        $(document).ready(function()
+        {
+            $("#hours").on("change keyup",calculateTotal)
+        })
+    </script>
     
 {% endblock body %}
