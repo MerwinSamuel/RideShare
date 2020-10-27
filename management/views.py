@@ -48,7 +48,7 @@ def add(request):
         post.seats= request.POST.get('seats')
         post.cost= request.POST.get('cost')
         post.save()
-        return HttpResponse("Vehicle Added!")
+        return redirect("/cars")
     else:
         return render(request, 'add.html')
 
@@ -70,7 +70,7 @@ def book(request, vehicleID):
         
         current_vehicle.availability=0
         current_vehicle.save()
-        return HttpResponse("Booking Done!")
+        return redirect('/cars')
 
     else:
         if request.user.is_authenticated:
