@@ -23,7 +23,8 @@ def index(request):
 def cars(request):
     vehicle_list = Vehicle.objects.filter(availability=1)
     if not vehicle_list:
-        return HttpResponse("Vehicle does not exist")
+        empty = { 'message' : "No Vehicles Available", }
+        return render(request, 'cars.html', empty)
     else:
         context = {
             'vehicle_list': vehicle_list,
@@ -80,6 +81,23 @@ def book(request, vehicleID):
             messages.warning(request,"Please login first!")
             return redirect('/users/login')
 
+
+def booked(request):
+    vehicle_list = Vehicle.objects.filter(availability=0)
+    if request.method == 'POST':
+        vehicleID = request.POST.get("vehicleID")
+        vehicle = Vehicle.objects.get(pk=vehicleID)
+        vehicle.availability = 1
+        vehicle.save()
+        return redirect('/booked')
+    if not vehicle_list:
+        empty = { 'message' : "All Booked Vehicles Returned", }
+        return render(request, 'booked.html', empty)
+    else:
+        context = {
+            'vehicle_list': vehicle_list,
+        }
+        return render(request, 'booked.html', context)
 
 
 def graph_view(request):
