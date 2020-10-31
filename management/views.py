@@ -106,6 +106,7 @@ def booked(request):
             vehicle.is_booked = 1 
         vehicle.count += 1       
         vehicle.save()
+        messages.success(request,"Car has been returned successfully!")
         return redirect('/booked')
     if not vehicle_list:
         empty = { 'message' : "All Booked Vehicles Returned", }
