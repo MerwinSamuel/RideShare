@@ -23,7 +23,8 @@ def index(request):
 def cars(request):
     vehicle_list = Vehicle.objects.filter(availability=1)
     if not vehicle_list:
-        return HttpResponse("Vehicle does not exist")
+        empty = { 'message' : "No Vehicles Available", }
+        return render(request, 'cars.html', empty)
     else:
         context = {
             'vehicle_list': vehicle_list,
@@ -47,7 +48,20 @@ def add(request):
         post.damage= request.POST.get('damage')
         post.seats= request.POST.get('seats')
         post.cost= request.POST.get('cost')
-        post.save()
+        post.count = request.POST.get('count')
+        post.total_count = post.count
+        vhc = Vehicle.objects.filter(make = post.make,model = post.model)
+        if vhc.exists()==True:
+
+            vhc_a = Vehicle.objects.get(make = post.make,model = post.model)
+            vhc_a.availability = 1
+            vhc_a.count += (int)(post.count)
+            vhc_a.total_count += (int)(post.count)
+            vhc_a.save()
+            
+        else:
+            post.save()
+        
         return redirect("/cars")
     else:
         return render(request, 'add.html')
@@ -59,7 +73,6 @@ def book(request, vehicleID):
         post = Booking()
         post.start=request.POST.get("datetime")
         post.hours=request.POST.get("hours")
-        
         post.total=int(request.POST.get("hours")) * current_vehicle.cost
         print(type(request.POST.get("hours")))
         print(type(current_vehicle.cost))
@@ -67,8 +80,10 @@ def book(request, vehicleID):
         post.VehicleID_id=vehicleID
         post.userID_id=current_user.id
         post.save()
-        
-        current_vehicle.availability=0
+        current_vehicle.count-=1
+        current_vehicle.is_booked = True
+        if current_vehicle.count <= 0:
+            current_vehicle.availability = 0    
         current_vehicle.save()
         return redirect('/cars')
 
@@ -80,6 +95,26 @@ def book(request, vehicleID):
             messages.warning(request,"Please login first!")
             return redirect('/users/login')
 
+def booked(request):
+    vehicle_list = Vehicle.objects.filter(is_booked = 1)
+    if request.method == 'POST':
+        vehicleID = request.POST.get("vehicleID")
+        vehicle = Vehicle.objects.get(pk=vehicleID)
+        if((vehicle.total_count - vehicle.count) ==1):
+            vehicle.is_booked = 0
+        else:
+            vehicle.is_booked = 1 
+        vehicle.count += 1       
+        vehicle.save()
+        return redirect('/booked')
+    if not vehicle_list:
+        empty = { 'message' : "All Booked Vehicles Returned", }
+        return render(request, 'booked.html', empty)
+    else:
+        context = {
+            'vehicle_list': vehicle_list,
+        }
+        return render(request, 'booked.html', context)
 
 
 def graph_view(request):

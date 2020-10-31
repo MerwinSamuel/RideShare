@@ -11,10 +11,17 @@ class Vehicle(models.Model):
     damage = models.CharField(max_length=200)
     seats = models.IntegerField()
     cost = models.IntegerField()
+    count = models.IntegerField(default = 1)
+    total_count = models.IntegerField(default = 1)
     availability = models.BooleanField(default=True)
+    is_booked = models.BooleanField(default = False)
 
-    def __str__(self):
-        return (self.make + ' ' +self.model)
+   
+
+
+
+    
+
 
 class Booking(models.Model):
     bookingID = models.AutoField(primary_key=True)

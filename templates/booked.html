@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Booked Vehicles{% endblock title %}
+
+{% block body %}
+
+
+<div class="container">
+  <div class="container my-3">
+    <div class="row">
+      {% for vehicle in vehicle_list %}
+
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <img src=" {{vehicle.imageurl }}"  style="width:550px;height:250px;" class="d-block w-100" alt="...">
+
+            <div class="card-body">
+              <h5 class="card-title">{{ vehicle.make }} {{ vehicle.model }}</h5> 
+              <form action="/booked/" method="POST">
+                  {% csrf_token %}
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <button href="/booked" type="submit" name="vehicleID" value="{{vehicle.vehicleID}}" class="btn btn-primary">Vehicle Returned</button>
+                    </div>
+                  </div>                  
+              </form>
+            </div>
+          </div>
+        </div>
+
+      {% endfor %}
+      {% if message %}
+        <h1>{{ message }}</h1>
+      {% endif %}
+      </div>
+    </div>
+
+</div>
+
+{% endblock body %} 

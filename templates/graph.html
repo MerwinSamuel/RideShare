@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Graph</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Graph{% endblock title %}
+
+{% block body %}
   <div id="container"></div>
 <script src="https://code.highcharts.com/highcharts.src.js"></script>
 <script>
@@ -47,5 +46,4 @@
     });
 </script>
 
-</body>
-</html>
+{% endblock body %}
