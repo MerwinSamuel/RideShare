@@ -117,6 +117,19 @@ def booked(request):
         return render(request, 'booked.html', context)
 
 
+def dashboard(request):
+    current_user = request.user
+    booking_list = Booking.objects.filter(userID = current_user.id)
+    if not booking_list:
+        empty = { 'message' : "No Booking History",}
+        return render(request, 'dashboard.html', empty)
+    else:
+        context = {
+            'booking_list': booking_list,
+        }
+        return render(request, 'dashboard.html', context)
+
+
 def graph_view(request):
     dataset = Booking.objects \
         .values('VehicleID') \
