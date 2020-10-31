@@ -116,23 +116,6 @@ def booked(request):
         }
         return render(request, 'booked.html', context)
 
-def booked(request):
-    vehicle_list = Vehicle.objects.filter(availability=0)
-    if request.method == 'POST':
-        vehicleID = request.POST.get("vehicleID")
-        vehicle = Vehicle.objects.get(pk=vehicleID)
-        vehicle.availability = 1
-        vehicle.save()
-        return redirect('/booked')
-    if not vehicle_list:
-        empty = { 'message' : "All Booked Vehicles Returned", }
-        return render(request, 'booked.html', empty)
-    else:
-        context = {
-            'vehicle_list': vehicle_list,
-        }
-        return render(request, 'booked.html', context)
-
 
 def graph_view(request):
     dataset = Booking.objects \
