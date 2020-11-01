@@ -9,19 +9,11 @@
   <div class="container my-3">
     <div class="row">
       {% for vehicle in vehicle_list %}
-<<<<<<< HEAD
-
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <img src=" {{vehicle.imageurl }}"  style="width:550px;height:250px;" class="d-block w-100" alt="...">
-
-=======
       
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
             <img src=" {{vehicle.imageurl }}"  style="width:550px;height:250px;" class="d-block w-100" alt="...">
             
->>>>>>> 10b02f60e1a14d946cbbf0d66296708944a0a56e
             <div class="card-body">
               <h5 class="card-title">{{ vehicle.make }} {{ vehicle.model }}</h5> 
               <form action="/booked/" method="POST">
@@ -35,25 +27,14 @@
             </div>
           </div>
         </div>
-<<<<<<< HEAD
-
-=======
       
->>>>>>> 10b02f60e1a14d946cbbf0d66296708944a0a56e
       {% endfor %}
       {% if message %}
         <h1>{{ message }}</h1>
       {% endif %}
       </div>
     </div>
-<<<<<<< HEAD
-
-</div>
-
-{% endblock body %} 
-=======
     
 </div>
 
 {% endblock body %}
->>>>>>> 10b02f60e1a14d946cbbf0d66296708944a0a56e
