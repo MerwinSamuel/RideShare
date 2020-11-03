@@ -10,6 +10,7 @@ urlpatterns = [
     path('add', views.add, name='add'),
     path('<int:vehicleID>/book', views.book, name='book'),
     path('booked/',views.booked, name='booked'),
+    path('dashboard/',views.dashboard, name='dashboard'),
     path('graph/',views.graph_view, name='graph_view'),
-    path('booked/',views.booked, name='booked'),
+    
 ]

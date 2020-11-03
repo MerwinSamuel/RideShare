@@ -16,13 +16,6 @@ class Vehicle(models.Model):
     availability = models.BooleanField(default=True)
     is_booked = models.BooleanField(default = False)
 
-   
-
-
-
-    
-
-
 class Booking(models.Model):
     bookingID = models.AutoField(primary_key=True)
     VehicleID = models.ForeignKey(Vehicle, on_delete=models.CASCADE)

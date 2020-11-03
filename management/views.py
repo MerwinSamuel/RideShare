@@ -106,6 +106,7 @@ def booked(request):
             vehicle.is_booked = 1 
         vehicle.count += 1       
         vehicle.save()
+        messages.success(request,"Car has been returned successfully!")
         return redirect('/booked')
     if not vehicle_list:
         empty = { 'message' : "All Booked Vehicles Returned", }
@@ -117,21 +118,37 @@ def booked(request):
         return render(request, 'booked.html', context)
 
 
+def dashboard(request):
+    current_user = request.user
+    booking_list = Booking.objects.filter(userID = current_user.id)
+    if not booking_list:
+        empty = { 'message' : "No Booking History",}
+        return render(request, 'dashboard.html', empty)
+    else:
+        context = {
+            'booking_list': booking_list,
+        }
+        return render(request, 'dashboard.html', context)
+
 
 def graph_view(request):
-    dataset = Booking.objects \
-        .values('VehicleID') \
-        .annotate(hours_count=F('hours'),amount_count=F('total')) \
-        .order_by('VehicleID')
+    dataset = Booking.objects.raw('SELECT distinct(VehicleID_id) as vid,sum(hours) as hours_count,sum(total) as amount_count,bookingID FROM management_booking GROUP BY VehicleID_id ORDER BY VehicleID_id')
+
+
+    
+      #  .values('VehicleID') \
+      #  .annotate(hours_count=sum('hours'),amount_count=sum('total')) \
+      #  .group_by('VehicleID') \
+      #  .order_by('VehicleID')    
 
     categories = list()
     hours_series = list()
     amount_series = list()
 
     for entry in dataset:
-        categories.append('Vehicle No. %s' % entry['VehicleID'])
-        hours_series.append(entry['hours_count'])
-        amount_series.append(entry['amount_count'])
+        categories.append('Vehicle No. %s' % entry.vid)
+        hours_series.append((int)(entry.hours_count))
+        amount_series.append((int)(entry.amount_count))
 
     return render(request, 'graph.html', {
         'categories': json.dumps(categories),
