@@ -49,6 +49,7 @@
                 <th scope="col">Booked For</th>
                 <th scope="col">Hours</th>
                 <th scope="col">Total Cost</th>
+                <th scope="col">Status</th>
             </tr>
         </thead>
         <tbody>
@@ -63,6 +64,12 @@
                 <td>{{ booking.start }}</td>
                 <td>{{ booking.hours }}</td>
                 <td>{{ booking.total }}</td>
+                <td> {% if booking.status %}
+                        <a href="/booked" class="btn btn-primary">Return</a> 
+                    {% else %}
+                        Returned 
+
+                    {% endif%} </td>
             </tr>
         
 
