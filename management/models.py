@@ -23,3 +23,4 @@ class Booking(models.Model):
     start = models.DateTimeField()
     hours = models.IntegerField()
     total = models.IntegerField()
+    status=models.BooleanField()
