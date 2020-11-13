@@ -8,6 +8,8 @@ from .forms import AddForm
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.db.models import *
+from django.db import connection
+
 
 
 import datetime
@@ -79,6 +81,7 @@ def book(request, vehicleID):
         print(post.total)
         post.VehicleID_id=vehicleID
         post.userID_id=current_user.id
+        post.status=1
         post.save()
         current_vehicle.count-=1
         current_vehicle.is_booked = True
@@ -104,8 +107,19 @@ def booked(request):
             vehicle.is_booked = 0
         else:
             vehicle.is_booked = 1 
+        
+        vehicle.availability=1
         vehicle.count += 1       
         vehicle.save()
+
+        if vehicle.availability==1:
+        	with connection.cursor() as cursor:
+        		cursor.execute("UPDATE management_booking SET status = 0 WHERE VehicleID_id = %s", [vehicle.vehicleID])
+
+        
+       
+        
+
         messages.success(request,"Car has been returned successfully!")
         return redirect('/booked')
     if not vehicle_list:
@@ -132,10 +146,10 @@ def dashboard(request):
 
 
 def graph_view(request):
-    dataset = Booking.objects.raw('SELECT distinct(VehicleID_id) as vid,sum(hours) as hours_count,sum(total) as amount_count,bookingID FROM management_booking GROUP BY VehicleID_id ORDER BY VehicleID_id')
+    dataset = Booking.objects.raw('SELECT distinct(VehicleID_id) as vid, sum(hours) as hours_count,sum(total) as amount_count,bookingID FROM management_booking GROUP BY VehicleID_id ORDER BY VehicleID_id')
+    #dataset1 = Vehicle.objects.raw('SELECT model from management_vehicle where VehicleID in (select VehicleID_id from management_booking)')
 
-
-    
+   
       #  .values('VehicleID') \
       #  .annotate(hours_count=sum('hours'),amount_count=sum('total')) \
       #  .group_by('VehicleID') \
@@ -146,9 +160,11 @@ def graph_view(request):
     amount_series = list()
 
     for entry in dataset:
-        categories.append('Vehicle No. %s' % entry.vid)
-        hours_series.append((int)(entry.hours_count))
-        amount_series.append((int)(entry.amount_count))
+    	categories.append('Vehicle No. %s' % entry.vid)
+    	hours_series.append((int)(entry.hours_count))
+    	amount_series.append((int)(entry.amount_count))
+
+
 
     return render(request, 'graph.html', {
         'categories': json.dumps(categories),
