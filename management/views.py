@@ -24,6 +24,15 @@ def index(request):
 
 def cars(request):
     vehicle_list = Vehicle.objects.filter(availability=1)
+    if request.method == 'POST':
+        seatslower = int(float(request.POST.get('seats-lower')))
+        seatsupper = int(float(request.POST.get('seats-upper')))
+        mileagelower = int(float(request.POST.get('mileage-lower')))
+        mileageupper = int(float(request.POST.get('mileage-upper')))
+        pricelower = int(float(request.POST.get('price-lower')))
+        priceupper = int(float(request.POST.get('price-upper')))
+
+        vehicle_list = Vehicle.objects.filter(availability=1,seats__range=[seatslower,seatsupper],mileage__range=[mileagelower,mileageupper],cost__range=[pricelower,priceupper])
     if not vehicle_list:
         empty = { 'message' : "No Vehicles Available", }
         return render(request, 'cars.html', empty)
@@ -159,10 +168,13 @@ def graph_view(request):
     hours_series = list()
     amount_series = list()
 
+        
     for entry in dataset:
-    	categories.append('Vehicle No. %s' % entry.vid)
-    	hours_series.append((int)(entry.hours_count))
-    	amount_series.append((int)(entry.amount_count))
+        vehicle = Vehicle.objects.get(pk=entry.vid)
+        name = vehicle.make + " " + vehicle.model
+        categories.append('%s' % name)
+        hours_series.append((int)(entry.hours_count))
+        amount_series.append((int)(entry.amount_count))
 
 
 
