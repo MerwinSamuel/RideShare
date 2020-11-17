@@ -109,7 +109,10 @@ def book(request, vehicleID):
 
 def booked(request):
     vehicle_list = Vehicle.objects.filter(is_booked = 1)
+    booking_list = Booking.objects.filter(status=1)
     if request.method == 'POST':
+        bookingID = request.POST.get("bookingID")
+        booking = Booking.objects.get(pk=bookingID)
         vehicleID = request.POST.get("vehicleID")
         vehicle = Vehicle.objects.get(pk=vehicleID)
         if((vehicle.total_count - vehicle.count) ==1):
@@ -123,7 +126,7 @@ def booked(request):
 
         if vehicle.availability==1:
         	with connection.cursor() as cursor:
-        		cursor.execute("UPDATE management_booking SET status = 0 WHERE VehicleID_id = %s", [vehicle.vehicleID])
+        		cursor.execute("UPDATE management_booking SET status = 0 WHERE bookingID = %s", [booking.bookingID])
 
         
        
@@ -137,6 +140,7 @@ def booked(request):
     else:
         context = {
             'vehicle_list': vehicle_list,
+            'booking_list': booking_list,
         }
         return render(request, 'booked.html', context)
 

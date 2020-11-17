@@ -8,19 +8,21 @@
 <div class="container">
   <div class="container my-3">
     <div class="row">
-      {% for vehicle in vehicle_list %}
+      {% for booking in booking_list %}
       
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
-            <img src=" {{vehicle.imageurl }}"  style="width:550px;height:250px;" class="d-block w-100" alt="...">
+            <img src=" {{booking.VehicleID.imageurl }}"  style="width:550px;height:250px;" class="d-block w-100" alt="...">
             
             <div class="card-body">
-              <h5 class="card-title">{{ vehicle.make }} {{ vehicle.model }}</h5> 
+              <h5 class="card-title">{{ booking.vehicleID.make }} {{ booking.VehicleID.model }}</h5> 
               <form action="/booked/" method="POST">
                   {% csrf_token %}
+                  <div>Booked By: {{ booking.userID }}</div>
+                  <input type="hidden" name="vehicleID" id="vehicleID" value="{{ booking.VehicleID.vehicleID }}">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <button href="/booked" type="submit" name="vehicleID" value="{{vehicle.vehicleID}}" class="btn btn-primary">Return Vehicle</button>
+                        <button href="/booked" type="submit" name="bookingID" value="{{booking.bookingID}}" class="btn btn-primary">Return Vehicle</button>
                     </div>
                   </div>                  
               </form>
