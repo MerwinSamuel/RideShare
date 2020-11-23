@@ -24,7 +24,7 @@
       Filter
     </button>
     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
-      Sort
+      Sort by Price
     </button>
   </p>
   <div class="collapse" id="collapseExample1">
@@ -97,9 +97,25 @@
   </div>
     <div class="collapse" id="collapseExample2">
       <div class="card card-body">
-        Sort Me !
+        <form action="/cars/" method="GET">
+          {% csrf_token %}
+          <div class="row">
+            <input type="hidden" id="sort" name="sort" value="none">
+            <button class="btn btn-dark" id="high">High to Low</button>
+            <button class="btn btn-dark" id="low">Low to High</button>
+          </div>
+        </form>
       </div>
     </div>
+
+    <script>
+      $("#high").click(function(){
+        $("#sort").val("high");
+      });
+      $("#low").click(function(){
+        $("#sort").val("low");
+      });
+    </script>
   
     <script>
 

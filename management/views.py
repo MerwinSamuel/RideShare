@@ -25,6 +25,12 @@ def index(request):
 def cars(request):
     vehicle_list = Vehicle.objects.filter(availability=1)
     if request.method == 'POST':
+        global seatslower
+        global seatsupper
+        global mileagelower
+        global mileageupper
+        global pricelower
+        global priceupper
         seatslower = int(float(request.POST.get('seats-lower')))
         seatsupper = int(float(request.POST.get('seats-upper')))
         mileagelower = int(float(request.POST.get('mileage-lower')))
@@ -33,6 +39,22 @@ def cars(request):
         priceupper = int(float(request.POST.get('price-upper')))
 
         vehicle_list = Vehicle.objects.filter(availability=1,seats__range=[seatslower,seatsupper],mileage__range=[mileagelower,mileageupper],cost__range=[pricelower,priceupper])
+    if request.method == 'GET':
+        try:
+            seatslower
+        except NameError:
+            seatslower = 0
+            seatsupper = 10
+            mileagelower =0
+            mileageupper = 30
+            pricelower = 0
+            priceupper = 30000
+        if request.GET.get('sort') == 'high':
+            vehicle_list = Vehicle.objects.filter(availability=1,seats__range=[seatslower,seatsupper],mileage__range=[mileagelower,mileageupper],cost__range=[pricelower,priceupper]).order_by('-cost')
+        elif request.GET.get('sort') == 'low':
+            vehicle_list = Vehicle.objects.filter(availability=1,seats__range=[seatslower,seatsupper],mileage__range=[mileagelower,mileageupper],cost__range=[pricelower,priceupper]).order_by('cost')
+        else:
+            pass
     if not vehicle_list:
         empty = { 'message' : "No Vehicles Available", }
         return render(request, 'cars.html', empty)
