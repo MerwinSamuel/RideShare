@@ -12,5 +12,6 @@ urlpatterns = [
     path('booked/',views.booked, name='booked'),
     path('dashboard/',views.dashboard, name='dashboard'),
     path('graph/',views.graph_view, name='graph_view'),
+    path('rental/',views.rental, name='rental'),
     
 ]

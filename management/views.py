@@ -179,6 +179,9 @@ def dashboard(request):
         }
         return render(request, 'dashboard.html', context)
 
+def rental(request):
+    return render(request, 'rental.html')
+
 
 def graph_view(request):
     dataset = Booking.objects.raw('SELECT distinct(VehicleID_id) as vid, sum(hours) as hours_count,sum(total) as amount_count,bookingID FROM management_booking GROUP BY VehicleID_id ORDER BY VehicleID_id')
