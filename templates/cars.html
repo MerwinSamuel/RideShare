@@ -16,6 +16,188 @@
         </p>
       </div>
   </header>
+
+
+
+  <p>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
+      Filter
+    </button>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+      Sort by Price
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample1">
+    <div class="card card-body">
+      <form action="/cars/" method="post">
+        {% csrf_token %}
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div>Seats:</div>
+          </div>
+          <div class="col">
+            <div>Mileage:</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-5">
+            <div id="seats"></div>
+          </div>
+          <div class="col-1"></div>
+          <div class="col-6">
+            <div id="mileage"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-1" id="lower-seats"></div>
+          <input type="hidden" id="seats-lower" name="seats-lower">
+          <div class="col-3"></div>
+          <div class="col-1" id="upper-seats"></div>
+          <input type="hidden" id="seats-upper" name="seats-upper">
+          <div class="col-1"></div>
+          <div class="col-1" id="lower-mileage"></div>
+          <input type="hidden" id="mileage-lower" name="mileage-lower">
+          <div class="col-4"></div>
+          <div class="col-1" id="upper-mileage"></div>
+          <input type="hidden" id="mileage-upper" name="mileage-upper">
+        </div>
+        <div class="row">
+          <div class="col">
+            Cost:
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div id="price"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-1">
+            <div id="lower-price"></div>
+            <input type="hidden" id="price-lower" name="price-lower">
+          </div>
+          <div class="col-9"></div>
+          <div class="col-2" style="text-align: right;">
+            <div id="upper-price"></div>
+            <input type="hidden" id="price-upper" name="price-upper">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-success btn-sm">Apply!</button>
+          </div>
+        </div>
+      </div>
+      </form>
+      
+      
+      
+    </div>
+  </div>
+    <div class="collapse" id="collapseExample2">
+      <div class="card card-body">
+        <form action="/cars/" method="GET">
+          {% csrf_token %}
+          <div class="row">
+            <input type="hidden" id="sort" name="sort" value="none">
+            <button class="btn btn-dark" id="high">High to Low</button>
+            <button class="btn btn-dark" id="low">Low to High</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      $("#high").click(function(){
+        $("#sort").val("high");
+      });
+      $("#low").click(function(){
+        $("#sort").val("low");
+      });
+    </script>
+  
+    <script>
+
+var seats = document.getElementById('seats');
+    
+    noUiSlider.create(seats, {
+        start: [0, 10],
+        step: 1,
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 10
+        }
+    });
+    var nodes1 = [
+  document.getElementById('lower-seats'), // 0
+  document.getElementById('upper-seats')  // 1
+];
+
+seats.noUiSlider.on('update', function (values, handle, unencoded, isTap, positions) {
+  nodes1[handle].innerHTML = values[handle] ;
+});
+
+var mileage = document.getElementById('mileage');
+    
+    noUiSlider.create(mileage, {
+        start: [0, 30],
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 30
+        }
+    });
+    var nodes2 = [
+  document.getElementById('lower-mileage'), // 0
+  document.getElementById('upper-mileage')  // 1
+];
+
+mileage.noUiSlider.on('update', function (values, handle, unencoded, isTap, positions) {
+  nodes2[handle].innerHTML = values[handle] ;
+});
+
+      var price = document.getElementById('price');
+    
+      noUiSlider.create(price, {
+          start: [0, 30000],
+          step: 100,
+          connect: true,
+          range: {
+              'min': 0,
+              'max': 30000
+          }
+      });
+      var nodes3 = [
+    document.getElementById('lower-price'), // 0
+    document.getElementById('upper-price')  // 1
+];
+
+price.noUiSlider.on('update', function (values, handle, unencoded, isTap, positions) {
+    nodes3[handle].innerHTML = values[handle] ;
+});
+
+    
+    $(document).ready(function() { 
+                $("body").click(function() { 
+                  var seatslower = document.getElementById('lower-seats').textContent;
+                  $('#seats-lower').val(seatslower);
+                  var seatsupper = document.getElementById('upper-seats').textContent;
+                  $('#seats-upper').val(seatsupper);
+                  var mileagelower = document.getElementById('lower-mileage').textContent;
+                  $('#mileage-lower').val(mileagelower);
+                  var mileageupper = document.getElementById('upper-mileage').textContent;
+                  $('#mileage-upper').val(mileageupper);
+                  var pricelower = document.getElementById('lower-price').textContent;
+                  $('#price-lower').val(pricelower);
+                  var priceupper = document.getElementById('upper-price').textContent;
+                  $('#price-upper').val(priceupper);
+                }); 
+            }); 
+    
+    </script>
+
   <div class="container my-3">
     <div class="row">
       {% for vehicle in vehicle_list %}

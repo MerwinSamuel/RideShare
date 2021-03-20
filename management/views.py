@@ -8,6 +8,8 @@ from .forms import AddForm
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.db.models import *
+from django.db import connection
+
 
 
 import datetime
@@ -22,6 +24,37 @@ def index(request):
 
 def cars(request):
     vehicle_list = Vehicle.objects.filter(availability=1)
+    if request.method == 'POST':
+        global seatslower
+        global seatsupper
+        global mileagelower
+        global mileageupper
+        global pricelower
+        global priceupper
+        seatslower = int(float(request.POST.get('seats-lower')))
+        seatsupper = int(float(request.POST.get('seats-upper')))
+        mileagelower = int(float(request.POST.get('mileage-lower')))
+        mileageupper = int(float(request.POST.get('mileage-upper')))
+        pricelower = int(float(request.POST.get('price-lower')))
+        priceupper = int(float(request.POST.get('price-upper')))
+
+        vehicle_list = Vehicle.objects.filter(availability=1,seats__range=[seatslower,seatsupper],mileage__range=[mileagelower,mileageupper],cost__range=[pricelower,priceupper])
+    if request.method == 'GET':
+        try:
+            seatslower
+        except NameError:
+            seatslower = 0
+            seatsupper = 10
+            mileagelower =0
+            mileageupper = 30
+            pricelower = 0
+            priceupper = 30000
+        if request.GET.get('sort') == 'high':
+            vehicle_list = Vehicle.objects.filter(availability=1,seats__range=[seatslower,seatsupper],mileage__range=[mileagelower,mileageupper],cost__range=[pricelower,priceupper]).order_by('-cost')
+        elif request.GET.get('sort') == 'low':
+            vehicle_list = Vehicle.objects.filter(availability=1,seats__range=[seatslower,seatsupper],mileage__range=[mileagelower,mileageupper],cost__range=[pricelower,priceupper]).order_by('cost')
+        else:
+            pass
     if not vehicle_list:
         empty = { 'message' : "No Vehicles Available", }
         return render(request, 'cars.html', empty)
@@ -79,6 +112,7 @@ def book(request, vehicleID):
         print(post.total)
         post.VehicleID_id=vehicleID
         post.userID_id=current_user.id
+        post.status=1
         post.save()
         current_vehicle.count-=1
         current_vehicle.is_booked = True
@@ -97,15 +131,29 @@ def book(request, vehicleID):
 
 def booked(request):
     vehicle_list = Vehicle.objects.filter(is_booked = 1)
+    booking_list = Booking.objects.filter(status=1)
     if request.method == 'POST':
+        bookingID = request.POST.get("bookingID")
+        booking = Booking.objects.get(pk=bookingID)
         vehicleID = request.POST.get("vehicleID")
         vehicle = Vehicle.objects.get(pk=vehicleID)
         if((vehicle.total_count - vehicle.count) ==1):
             vehicle.is_booked = 0
         else:
             vehicle.is_booked = 1 
+        
+        vehicle.availability=1
         vehicle.count += 1       
         vehicle.save()
+
+        if vehicle.availability==1:
+        	with connection.cursor() as cursor:
+        		cursor.execute("UPDATE management_booking SET status = 0 WHERE bookingID = %s", [booking.bookingID])
+
+        
+       
+        
+
         messages.success(request,"Car has been returned successfully!")
         return redirect('/booked')
     if not vehicle_list:
@@ -114,6 +162,7 @@ def booked(request):
     else:
         context = {
             'vehicle_list': vehicle_list,
+            'booking_list': booking_list,
         }
         return render(request, 'booked.html', context)
 
@@ -130,12 +179,15 @@ def dashboard(request):
         }
         return render(request, 'dashboard.html', context)
 
+def rental(request):
+    return render(request, 'rental.html')
+
 
 def graph_view(request):
-    dataset = Booking.objects.raw('SELECT distinct(VehicleID_id) as vid,sum(hours) as hours_count,sum(total) as amount_count,bookingID FROM management_booking GROUP BY VehicleID_id ORDER BY VehicleID_id')
+    dataset = Booking.objects.raw('SELECT distinct(VehicleID_id) as vid, sum(hours) as hours_count,sum(total) as amount_count,bookingID FROM management_booking GROUP BY VehicleID_id ORDER BY VehicleID_id')
+    #dataset1 = Vehicle.objects.raw('SELECT model from management_vehicle where VehicleID in (select VehicleID_id from management_booking)')
 
-
-    
+   
       #  .values('VehicleID') \
       #  .annotate(hours_count=sum('hours'),amount_count=sum('total')) \
       #  .group_by('VehicleID') \
@@ -145,10 +197,15 @@ def graph_view(request):
     hours_series = list()
     amount_series = list()
 
+        
     for entry in dataset:
-        categories.append('Vehicle No. %s' % entry.vid)
+        vehicle = Vehicle.objects.get(pk=entry.vid)
+        name = vehicle.make + " " + vehicle.model
+        categories.append('%s' % name)
         hours_series.append((int)(entry.hours_count))
         amount_series.append((int)(entry.amount_count))
+
+
 
     return render(request, 'graph.html', {
         'categories': json.dumps(categories),
